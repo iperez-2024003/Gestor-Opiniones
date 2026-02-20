@@ -1,0 +1,593 @@
+{
+  "info": {
+    "_postman_id": "07a2f294-1ec0-4059-84ca-91bcf72ca984",
+    "name": "Gestion Opiniones",
+    "description": "Collection completa con todos los endpoints del sistema",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52312192"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Registrar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Iverson\",\n    \"surname\": \"Maldonado\",\n    \"username\": \"iversoncrack\",\n    \"email\": \"gestionrestaurante3@gmail.com\",\n    \"password\": \"Gestion1234\",\n    \"phone\": \"55895932\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "VerificarEmail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"TU_TOKEN_DE_VERIFICACION_AQUI\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/verify-email",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "verify-email"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.token) {",
+                  "    pm.collectionVariables.set('token', res.token);",
+                  "    console.log('Token guardado:', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"emailOrUsername\": \"gestionrestaurante3@gmail.com\",\n    \"password\": \"Gestion1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Publicaciones",
+      "item": [
+        {
+          "name": "Crear Publicacion",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.publication && res.publication.id) {",
+                  "    pm.collectionVariables.set('publication_id', res.publication.id);",
+                  "    console.log('Publication ID guardado:', res.publication.id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Mi primera opinión\",\n    \"category\": \"Tecnología\",\n    \"text\": \"Esta es mi opinión sobre la tecnología actual y su impacto en la sociedad moderna.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/publications",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "publications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver Todas las Publicaciones",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3005/api/v1/publications",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "publications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver Publicacion por ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3005/api/v1/publications/{{publication_id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "publications",
+                "{{publication_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Editar Publicacion",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Título actualizado\",\n    \"category\": \"Educación\",\n    \"text\": \"Este es el texto actualizado de mi publicación con más de diez caracteres.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/publications/{{publication_id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "publications",
+                "{{publication_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Publicacion",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3005/api/v1/publications/{{publication_id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "publications",
+                "{{publication_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Comentarios",
+      "item": [
+        {
+          "name": "Crear Comentario",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.comment && res.comment.id) {",
+                  "    pm.collectionVariables.set('comment_id', res.comment.id);",
+                  "    console.log('Comment ID guardado:', res.comment.id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"text\": \"Excelente opinión, totalmente de acuerdo contigo.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/comments/{{publication_id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                "{{publication_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver Comentarios de Publicacion",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3005/api/v1/comments/{{publication_id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                "{{publication_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Editar Comentario",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"text\": \"Comentario editado correctamente.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/comments/{{comment_id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                "{{comment_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Comentario",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3005/api/v1/comments/{{comment_id}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "comments",
+                "{{comment_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3005/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "publication_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "comment_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
