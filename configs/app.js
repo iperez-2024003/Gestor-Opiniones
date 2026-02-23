@@ -54,7 +54,7 @@ const routes = (app) => {
     res.status(200).json({
       status: 'Healthy',
       timestamp: new Date().toISOString(),
-      service: 'Gestion Restaurantes Service',
+      service: 'Gestion Opiniones Service',
     });
   });
 
@@ -76,7 +76,7 @@ export const initServer = async () => {
     app.use(errorHandler);
 
     app.listen(PORT, () => {
-      console.log(`Gestion Restaurantes Server running on port ${PORT}`);
+      console.log(`Gestion Opiniones Server running on port ${PORT}`);
       console.log(`Health check: http://localhost:${PORT}${BASE_PATH}/health`);
     });
   } catch (err) {

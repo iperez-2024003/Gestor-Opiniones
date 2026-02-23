@@ -1,7 +1,7 @@
 {
   "info": {
-    "_postman_id": "07a2f294-1ec0-4059-84ca-91bcf72ca984",
-    "name": "Gestion Opiniones",
+    "_postman_id": "1b3adf47-02e6-4d0c-8780-9f56ebab6375",
+    "name": "Gestion Opiniones 2.0",
     "description": "Collection completa con todos los endpoints del sistema",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "52312192"
@@ -14,20 +14,48 @@
           "name": "Registrar",
           "request": {
             "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+            "header": [],
             "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Iverson\",\n    \"surname\": \"Maldonado\",\n    \"username\": \"iversoncrack\",\n    \"email\": \"gestionrestaurante3@gmail.com\",\n    \"password\": \"Gestion1234\",\n    \"phone\": \"55895932\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Iverson",
+                  "type": "text"
+                },
+                {
+                  "key": "surname",
+                  "value": "Maldonado",
+                  "type": "text"
+                },
+                {
+                  "key": "username",
+                  "value": "iversoncrack",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "gestionrestaurante3@gmail.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "Gestion1234",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "55895932",
+                  "type": "text"
+                },
+                {
+                  "key": "profilePicture",
+                  "type": "file",
+                  "description": "Opcional - selecciona una imagen JPG/PNG/WEBP máx 5MB",
+                  "value": null,
+                  "disabled": true
                 }
-              }
+              ]
             },
             "url": {
               "raw": "http://localhost:3005/api/v1/auth/register",
@@ -58,7 +86,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"token\": \"TU_TOKEN_DE_VERIFICACION_AQUI\"\n}",
+              "raw": "{\n    \"token\": \"PEGA_AQUI_EL_TOKEN_QUE_LLEGO_AL_CORREO\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -92,7 +120,7 @@
                   "const res = pm.response.json();",
                   "if (res.token) {",
                   "    pm.collectionVariables.set('token', res.token);",
-                  "    console.log('Token guardado:', res.token);",
+                  "    console.log('✅ Token guardado:', res.token);",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -132,6 +160,245 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Ver Mi Perfil",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/profile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Editar Perfil (con foto)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "IversonEditado",
+                  "type": "text",
+                  "description": "Opcional"
+                },
+                {
+                  "key": "surname",
+                  "value": "MaldonadoEditado",
+                  "type": "text",
+                  "description": "Opcional"
+                },
+                {
+                  "key": "username",
+                  "value": "iverson_nuevo",
+                  "type": "text",
+                  "description": "Opcional"
+                },
+                {
+                  "key": "phone",
+                  "value": "55001122",
+                  "type": "text",
+                  "description": "Opcional - 8 dígitos"
+                },
+                {
+                  "key": "profilePicture",
+                  "type": "file",
+                  "description": "Opcional - selecciona imagen para subir a Cloudinary",
+                  "value": null,
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/profile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cambiar Contraseña",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-token",
+                "value": "{{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"currentPassword\": \"Gestion1234\",\n    \"newPassword\": \"NuevaClave5678\",\n    \"confirmPassword\": \"NuevaClave5678\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/profile/change-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "profile",
+                "change-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"gestionrestaurante3@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/forgot-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "forgot-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"PEGA_AQUI_EL_TOKEN_DEL_CORREO\",\n    \"newPassword\": \"NuevaClave5678\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/reset-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "reset-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reenviar Verificacion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"gestionrestaurante3@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3005/api/v1/auth/resend-verification",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3005",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "resend-verification"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -148,26 +415,14 @@
                   "const res = pm.response.json();",
                   "if (res.publication && res.publication.id) {",
                   "    pm.collectionVariables.set('publication_id', res.publication.id);",
-                  "    console.log('Publication ID guardado:', res.publication.id);",
+                  "    console.log('✅ Publication ID guardado:', res.publication.id);",
                   "}"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [
               {
@@ -207,16 +462,6 @@
         {
           "name": "Ver Todas las Publicaciones",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "GET",
             "header": [
               {
@@ -243,16 +488,6 @@
         {
           "name": "Ver Publicacion por ID",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "GET",
             "header": [
               {
@@ -280,16 +515,6 @@
         {
           "name": "Editar Publicacion",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PUT",
             "header": [
               {
@@ -330,16 +555,6 @@
         {
           "name": "Eliminar Publicacion",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "DELETE",
             "header": [
               {
@@ -379,26 +594,14 @@
                   "const res = pm.response.json();",
                   "if (res.comment && res.comment.id) {",
                   "    pm.collectionVariables.set('comment_id', res.comment.id);",
-                  "    console.log('Comment ID guardado:', res.comment.id);",
+                  "    console.log('✅ Comment ID guardado:', res.comment.id);",
                   "}"
                 ],
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "type": "text/javascript"
               }
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [
               {
@@ -439,16 +642,6 @@
         {
           "name": "Ver Comentarios de Publicacion",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "GET",
             "header": [
               {
@@ -476,16 +669,6 @@
         {
           "name": "Editar Comentario",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PUT",
             "header": [
               {
@@ -526,16 +709,6 @@
         {
           "name": "Eliminar Comentario",
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfbjVhNWpIdE41R0Z3IiwianRpIjoiODEwYmY3YWEtMWIyNC00Yzc5LTk1M2EtY2ExYzcxMGUyODM5IiwiaWF0IjoxNzcxNTIxODY3LCJyb2xlIjoiVVNFUl9ST0xFIiwiZXhwIjoxNzcxNTIzNjY3LCJhdWQiOiJBdXRoU2VydmljZSIsImlzcyI6IkF1dGhTZXJ2aWNlIn0.lAi1dZSGFXnWgjL8dKz1suDOjNdw6fWeWDTKfeuzkAk",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "DELETE",
             "header": [
               {
