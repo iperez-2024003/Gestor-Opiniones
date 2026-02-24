@@ -1,11 +1,11 @@
 {
   "info": {
-    "_postman_id": "d1f3fed9-17d5-410d-bd95-8f3469011bd3",
+    "_postman_id": "132cbe6a-8f78-463b-9e5c-2d53ab7f7212",
     "name": "Gestión de Opiniones - API Completa v2.0",
     "description": "Sistema de publicaciones y comentarios - Organizado por roles y permisos",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "48332492",
-    "_collection_link": "https://go.postman.co/collection/48332492-d1f3fed9-17d5-410d-bd95-8f3469011bd3?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/48332492-132cbe6a-8f78-463b-9e5c-2d53ab7f7212?source=collection_link"
   },
   "item": [
     {
