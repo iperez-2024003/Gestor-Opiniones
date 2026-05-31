@@ -34,16 +34,16 @@ El proyecto resuelve la necesidad de centralizar la interacción entre usuarios 
 ## Instalación y ejecución
 1. Instala dependencias:
    ```bash
-   npm install
+   pnpm install
    ```
 2. Configura las variables de entorno necesarias para PostgreSQL, JWT, SMTP, Cloudinary y carga de archivos.
 3. Ejecuta el proyecto en desarrollo:
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 4. Para producción:
    ```bash
-   npm start
+   pnpm start
    ```
 
 > El repositorio incluye una colección de Postman (`Gestion_Opiniones.postman_collection.json`) para probar los endpoints.
