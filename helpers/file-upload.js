@@ -30,7 +30,7 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(
       new Error(
-        'Tipo de archivo no permitido. Solo se permiten imágenes (JPEG, JPG, PNG, GIF)'
+        'Tipo de archivo no permitido. Solo se permiten imágenes (JPEG, JPG, PNG, WEBP)'
       ),
       false
     );
@@ -71,7 +71,7 @@ export const handleUploadError = (error, req, res, next) => {
     return res.status(400).json({
       success: false,
       message: 'Tipo de archivo no permitido',
-      error: 'Solo se permiten imágenes (JPEG, JPG, PNG, GIF)',
+      error: 'Solo se permiten imágenes (JPEG, JPG, PNG, WEBP)',
     });
   }
 

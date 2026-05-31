@@ -10,8 +10,8 @@ export const errorHandler = (err, req, res, _next) => {
   const timestamp = new Date().toISOString();
   const errorCode = err.errorCode || null;
 
-  // Error de validación de Mongoose
-  if (err.name === 'ValidationError') {
+  // Error de validación de Sequelize
+  if (err.name === 'SequelizeValidationError') {
     return res.status(400).json({
       success: false,
       message: 'Error de validación',
@@ -21,24 +21,25 @@ export const errorHandler = (err, req, res, _next) => {
     });
   }
 
-  // Error de cast de Mongoose (ID inválido)
-  if (err.name === 'CastError') {
+  // Error de restricción única en Sequelize
+  if (err.name === 'SequelizeUniqueConstraintError') {
+    const field = err.errors?.[0]?.path || 'campo';
+    const value = err.errors?.[0]?.value || 'valor duplicado';
+
     return res.status(400).json({
       success: false,
-      message: 'ID inválido',
+      message: `El ${field} '${value}' ya está en uso`,
       errorCode,
       traceId,
       timestamp,
     });
   }
 
-  // Error de duplicado de Mongoose
-  if (err.code === 11000) {
-    const field = Object.keys(err.keyValue)[0];
-    const value = err.keyValue[field];
+  // Error de clave foránea en Sequelize
+  if (err.name === 'SequelizeForeignKeyConstraintError') {
     return res.status(400).json({
       success: false,
-      message: `El ${field} '${value}' ya está en uso`,
+      message: 'Referencia inválida relacionada con otra entidad',
       errorCode,
       traceId,
       timestamp,
@@ -77,8 +78,12 @@ export const errorHandler = (err, req, res, _next) => {
     });
   }
 
-  // Error de conexión a base de datos
-  if (err.name === 'MongoNetworkError') {
+  // Error de conexión a PostgreSQL / Sequelize
+  if (
+    err.name === 'SequelizeConnectionError' ||
+    err.name === 'SequelizeConnectionRefusedError' ||
+    err.name === 'SequelizeHostNotFoundError'
+  ) {
     return res.status(503).json({
       success: false,
       message: 'Error de conexión a la base de datos',
